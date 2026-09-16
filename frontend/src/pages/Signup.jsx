@@ -307,7 +307,7 @@ const Signup = () => {
                 <label className="block text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">Full Name *</label>
                 <div className="signup-input-shell">
                   <User className="signup-input-icon text-slate-400" size={16} />
-                  <input type="text" name="name" required placeholder="Vishal Sahu" value={formData.name} onChange={handleChange} className="skillpulse-input skillpulse-input-with-icon" />
+                  <input type="text" name="name" required placeholder="Enter your full name" value={formData.name} onChange={handleChange} className="skillpulse-input skillpulse-input-with-icon" />
                 </div>
               </div>
 
@@ -315,7 +315,7 @@ const Signup = () => {
                 <label className="block text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">Email Address *</label>
                 <div className="signup-input-shell">
                   <Mail className="signup-input-icon text-slate-400" size={16} />
-                  <input type="email" name="email" required placeholder="vishal@example.com" value={formData.email} onChange={handleChange} className="skillpulse-input skillpulse-input-with-icon" />
+                  <input type="email" name="email" required placeholder="Enter your email" value={formData.email} onChange={handleChange} className="skillpulse-input skillpulse-input-with-icon" />
                 </div>
               </div>
 
