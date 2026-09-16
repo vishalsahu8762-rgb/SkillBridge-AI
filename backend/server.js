@@ -40,6 +40,12 @@ const connectDB = async () => {
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.warn('MongoDB connection unavailable, running backend with in-memory prototype persistence layer.');
+    console.warn('MongoDB connection error:', {
+      name: error.name,
+      message: error.message,
+      code: error.code,
+      codeName: error.codeName
+    });
   }
 };
 
