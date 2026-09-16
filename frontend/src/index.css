@@ -27,6 +27,10 @@ html {
   scroll-behavior: smooth;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -37,6 +41,7 @@ body {
   font-family: Inter, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 #root {
@@ -67,6 +72,718 @@ body {
 .skillpulse-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 16px 28px rgba(31, 95, 218, 0.32);
+}
+
+.skillpulse-auth-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 78% 12%, rgba(52, 211, 153, 0.12), transparent 20%),
+    radial-gradient(circle at 70% 88%, rgba(29, 78, 216, 0.14), transparent 24%),
+    linear-gradient(135deg, #071a34 0%, #0b2447 100%);
+  color: var(--ink-900);
+  font-family: Inter, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.skillpulse-auth-topbar {
+  width: min(1400px, calc(100% - 48px));
+  margin: 0 auto;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.skillpulse-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+}
+
+.skillpulse-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  color: #071a34;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--primary-400));
+  box-shadow: 0 14px 30px rgba(52, 211, 153, 0.22);
+}
+
+.skillpulse-brand-text {
+  color: #eef8ff;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.skillpulse-topbar-links {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.skillpulse-topbar-link {
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #d9f8ff;
+  padding: 0.78rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255,255,255,0.08);
+}
+
+.skillpulse-primary-link {
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-400));
+  color: white;
+  border: none;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.3);
+}
+
+.skillpulse-auth-layout {
+  width: min(1400px, calc(100% - 48px));
+  min-height: calc(100vh - 140px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(460px, 1.12fr) minmax(360px, 0.88fr);
+  gap: clamp(1.2rem, 2vw, 2rem);
+  align-items: center;
+  padding: 0 0 50px;
+}
+
+.skillpulse-auth-story {
+  min-width: 0;
+}
+
+.skillpulse-story-inner {
+  background: rgba(10, 25, 50, 0.46);
+  color: #eefbff;
+  border-radius: 36px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  padding: clamp(1.8rem, 3vw, 3rem);
+  min-height: clamp(540px, 62vh, 660px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.skillpulse-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--accent-cyan);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin-bottom: 1.5rem;
+}
+
+.skillpulse-story-heading {
+  max-width: 620px;
+}
+
+.skillpulse-story-heading h1 {
+  margin: 0;
+  color: #eefbff;
+  font-size: clamp(2.8rem, 4.2vw, 4rem);
+  line-height: 1.04;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.skillpulse-story-heading p {
+  color: #b9d7e7;
+  font-size: clamp(0.98rem, 1.55vw, 1.1rem);
+  line-height: 1.65;
+  max-width: 620px;
+  margin-top: 1.2rem;
+}
+
+.skillpulse-story-inner {
+  overflow: visible;
+}
+
+.skillpulse-story-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.skillpulse-cta-primary {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: clamp(0.82rem, 1.8vw, 1rem) clamp(1.2rem, 2.2vw, 1.8rem);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--primary-400));
+  color: var(--primary-900);
+  font-size: clamp(0.82rem, 1vw, 0.9rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+}
+
+.skillpulse-cta-note {
+  color: #c8dded;
+  font-size: clamp(0.72rem, 1.1vw, 0.84rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.skillpulse-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(190px, 1fr));
+  gap: clamp(0.8rem, 1.2vw, 1rem);
+  margin-top: 1.8rem;
+  align-items: stretch;
+}
+
+.skillpulse-feature-card {
+  background: rgba(255, 255, 255, 0.065);
+  border: 1px solid rgba(219, 242, 255, 0.16);
+  border-radius: 20px;
+  padding: clamp(0.9rem, 1.8vw, 1.2rem);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease, box-shadow 220ms ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  min-height: 112px;
+}
+
+.skillpulse-feature-card:hover {
+  background: rgba(255, 255, 255, 0.105);
+  border-color: rgba(94, 234, 212, 0.8);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+}
+
+.skillpulse-feature-card-primary {
+  background: rgba(255,255,255,0.095);
+  border-color: rgba(94, 234, 212, 0.34);
+}
+
+.skillpulse-feature-card-primary .skillpulse-feature-icon {
+  background: rgba(94, 234, 212, 0.18);
+  border-color: rgba(94, 234, 212, 0.84);
+}
+
+.skillpulse-feature-copy {
+  min-width: 0;
+}
+
+.skillpulse-feature-icon {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(94, 234, 212, 0.12);
+  border: 1px solid rgba(94, 234, 212, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-cyan);
+}
+
+.skillpulse-feature-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.skillpulse-feature-title {
+  color: #eefbff;
+  font-size: clamp(0.84rem, 1.1vw, 0.96rem);
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+
+.skillpulse-feature-text {
+  color: #b2cce5;
+  font-size: clamp(0.74rem, 1vw, 0.84rem);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.skillpulse-proof-strip {
+  margin-top: 1.6rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.skillpulse-proof-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #d9eefb;
+  font-size: clamp(0.72rem, 1vw, 0.78rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.skillpulse-proof-item svg {
+  color: var(--accent-cyan);
+}
+
+.skillpulse-book-icon {
+  display: inline-flex;
+}
+
+.skillpulse-auth-panel {
+  min-width: 0;
+}
+
+.skillpulse-auth-panel-card {
+  background: rgba(248, 250, 252, 0.98);
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.88);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+  padding: clamp(1.35rem, 2.9vw, 2rem);
+}
+
+.skillpulse-auth-panel-head {
+  text-align: center;
+  margin-bottom: 1.55rem;
+}
+
+.skillpulse-auth-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  color: white;
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-400));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 16px 34px rgba(30, 64, 175, 0.22);
+}
+
+.skillpulse-auth-panel-head h2 {
+  margin: 0;
+  color: var(--primary-900);
+  font-size: clamp(2rem, 2vw, 2.4rem);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.skillpulse-auth-panel-head p {
+  color: var(--ink-500);
+  font-size: clamp(0.82rem, 1vw, 0.92rem);
+  margin-top: 0.65rem;
+}
+
+.skillpulse-route-message {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.82rem 0.9rem;
+  border-radius: 14px;
+  color: #b45309;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.skillpulse-demo-access {
+  border-radius: 20px;
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  background: #eef6ff;
+  padding: 0.9rem;
+  margin: 1rem 0;
+}
+
+.skillpulse-demo-title {
+  text-align: center;
+  color: var(--ink-700);
+  font-size: clamp(0.72rem, 0.9vw, 0.78rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin-bottom: 0.75rem;
+}
+
+.skillpulse-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.skillpulse-demo-grid button {
+  border-radius: 14px;
+  padding: clamp(0.72rem, 1vw, 0.84rem) clamp(0.45rem, 1vw, 0.70rem);
+  background: white;
+  color: var(--primary-700);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  font-size: clamp(0.72rem, 1vw, 0.76rem);
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.40rem;
+  transition: 180ms ease;
+  cursor: pointer;
+}
+
+.skillpulse-demo-grid button:hover {
+  background: var(--primary-500);
+  color: white;
+  border-color: var(--primary-500);
+}
+
+.skillpulse-error-box {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.8rem 0.9rem;
+  background: #fff1f2;
+  color: #be123c;
+  border-radius: 14px;
+  border: 1px solid #fecdd3;
+  font-size: clamp(0.78rem, 1vw, 0.84rem);
+  font-weight: 700;
+}
+
+.skillpulse-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  margin-top: 1.2rem;
+}
+
+.skillpulse-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.skillpulse-form-field label {
+  color: var(--ink-700);
+  font-size: clamp(0.72rem, 1vw, 0.78rem);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.skillpulse-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.skillpulse-input-icon {
+  position: absolute;
+  left: 0.95rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-500);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.skillpulse-input {
+  @apply w-full rounded-xl border border-slate-200 bg-white/85 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-all duration-200;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  display: block;
+  min-width: 0;
+  width: 100%;
+  min-height: 48px;
+  font-size: clamp(0.82rem, 1vw, 0.95rem);
+  line-height: 1.4;
+}
+
+.skillpulse-input-with-icon {
+  padding-left: 2.85rem !important;
+}
+
+.skillpulse-input-with-icon-password {
+  padding-left: 2.85rem !important;
+  padding-right: 2.7rem !important;
+}
+
+.skillpulse-password-toggle {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.skillpulse-input:focus {
+  @apply outline-none ring-2 ring-blue-200 border-blue-400;
+}
+
+.skillpulse-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.skillpulse-select-wrap .skillpulse-input,
+.skillpulse-skill-select-trigger {
+  min-height: 46px;
+}
+
+.skillpulse-select-control {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.skillpulse-select-arrow {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--primary-700);
+}
+
+.skillpulse-select-status {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #eef6ff;
+  color: var(--primary-700);
+  border: 1px solid var(--line);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.skillpulse-select-status.error,
+.skillpulse-skill-dropdown-empty.error {
+  color: #b45309;
+  border-color: #fed7aa;
+  background: #fff7ed;
+}
+
+.skillpulse-skill-select-wrap {
+  width: 100%;
+  position: relative;
+}
+
+.skillpulse-skill-select-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink-700);
+  background: white;
+}
+
+.skillpulse-skill-trigger-text {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.skillpulse-skill-dropdown {
+  position: absolute;
+  z-index: 60;
+  left: 0;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  max-height: min(280px, 50vh);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.skillpulse-skill-dropdown-empty {
+  padding: 1rem;
+  color: var(--ink-500);
+  font-size: 0.78rem;
+}
+
+.skillpulse-skill-option-list {
+  padding: 0.55rem;
+}
+
+.skillpulse-skill-option {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.72rem 0.7rem;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  color: var(--ink-700);
+  cursor: pointer;
+  transition: 180ms ease;
+}
+
+.skillpulse-skill-option:hover {
+  background: #eef6ff;
+}
+
+.skillpulse-skill-option input {
+  accent-color: var(--primary-600);
+}
+
+.skillpulse-skill-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.skillpulse-skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.56rem;
+  border-radius: 999px;
+  background: #eaf4ff;
+  color: var(--primary-700);
+  border: 1px solid rgba(59, 130, 246, 0.24);
+  font-size: 0.72rem;
+  font-weight: 800;
+  min-width: 0;
+}
+
+.skillpulse-skill-chip span {
+  white-space: nowrap;
+}
+
+.skillpulse-skill-chip button {
+  border: 0;
+  background: transparent;
+  color: var(--primary-700);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skillpulse-skill-chip button:hover {
+  color: #b45309;
+}
+
+.skillpulse-auth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--ink-500);
+  font-size: 0.78rem;
+}
+
+.skillpulse-check-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  user-select: none;
+}
+
+.skillpulse-check-row input {
+  width: 16px;
+  height: 16px;
+}
+
+.skillpulse-quiet-link {
+  border: 0;
+  background: none;
+  color: var(--primary-600);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.skillpulse-login-button {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary-700), var(--primary-600));
+  color: white;
+  font-size: clamp(0.82rem, 1vw, 0.9rem);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  box-shadow: 0 16px 35px rgba(30,64,175,0.24);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.skillpulse-login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 45px rgba(30,64,175,0.30);
+}
+
+.skillpulse-login-button:disabled {
+  opacity: 0.84;
+  cursor: wait;
+}
+
+.skillpulse-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.5);
+  border-top-color: var(--accent-cyan);
+  animation: spin 600ms linear infinite;
+}
+
+.skillpulse-auth-switch {
+  border-top: 1px solid var(--line);
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  text-align: center;
+  color: var(--ink-500);
+  font-size: 0.84rem;
+}
+
+.skillpulse-auth-switch span {
+  margin-right: 0.35rem;
+}
+
+.skillpulse-auth-switch a {
+  text-decoration: none;
+  color: var(--primary-600);
+  font-weight: 900;
 }
 
 .signup-form {
@@ -139,24 +856,6 @@ body {
   z-index: 1;
 }
 
-.skillpulse-input {
-  @apply w-full rounded-xl border border-slate-200 bg-white/85 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-all duration-200;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  box-sizing: border-box;
-  display: block;
-  min-width: 0;
-  width: 100%;
-}
-
-.skillpulse-input-with-icon {
-  padding-left: 2.75rem !important;
-}
-
-.skillpulse-input-with-icon-password {
-  padding-left: 2.75rem !important;
-  padding-right: 2.75rem !important;
-}
-
 .signup-input-shell input,
 .signup-input-shell select {
   width: 100%;
@@ -169,10 +868,6 @@ body {
   .signup-row {
     grid-template-columns: 1fr;
   }
-}
-
-.skillpulse-input:focus {
-  @apply outline-none ring-2 ring-blue-200 border-blue-400;
 }
 
 .skillpulse-chip {
@@ -205,4 +900,86 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .skillpulse-auth-layout {
+    width: min(920px, calc(100% - 32px));
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-bottom: 30px;
+  }
+
+  .skillpulse-story-inner {
+    min-height: auto;
+  }
+
+  .skillpulse-feature-grid {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .skillpulse-auth-page {
+    background-attachment: scroll;
+  }
+
+  .skillpulse-auth-topbar {
+    width: min(100%, calc(100% - 24px));
+  }
+
+  .skillpulse-auth-layout {
+    width: min(100%, calc(100% - 24px));
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .skillpulse-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skillpulse-demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skillpulse-auth-options {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .skillpulse-story-heading h1 {
+    font-size: clamp(2.4rem, 10vw, 3rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .skillpulse-auth-topbar {
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: auto;
+    padding: 16px 0;
+  }
+
+  .skillpulse-auth-layout {
+    gap: 1rem;
+  }
+
+  .skillpulse-story-inner,
+  .skillpulse-auth-panel-card {
+    border-radius: 24px;
+  }
+
+  .skillpulse-proof-strip {
+    gap: 0.75rem;
+  }
+
+  .skillpulse-input {
+    min-height: 46px;
+  }
 }

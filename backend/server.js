@@ -19,6 +19,7 @@ const districtRoutes = require('./routes/districtRoutes');
 const employerRoutes = require('./routes/employerRoutes');
 const authRoutes = require('./routes/authRoutes');
 const studentRoutes = require('./routes/studentRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 app.use('/api/demand', demandRoutes);
 app.use('/api/skills', skillRoutes);
@@ -27,6 +28,7 @@ app.use('/api/curriculum', curriculumRoutes);
 app.use('/api/districts', districtRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/student', studentRoutes);
+app.use('/api/chat', chatRoutes);
 app.use('/api', employerRoutes);
 
 // MongoDB Connection
@@ -47,7 +49,7 @@ connectDB();
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
-    message: 'SkillSync API is running'
+    message: 'SkillBridge AI API is running'
   });
 });
 

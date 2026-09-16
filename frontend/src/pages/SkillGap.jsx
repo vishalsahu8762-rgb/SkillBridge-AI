@@ -4,6 +4,7 @@ import SkillSelector from '../components/SkillSelector';
 import SkillGapCard from '../components/SkillGapCard';
 import ReadinessProgress from '../components/ReadinessProgress';
 import RecommendationCard from '../components/RecommendationCard';
+import CareerAssistant from '../components/CareerAssistant';
 import {
   getJobRoles,
   getAllSkills,
@@ -75,12 +76,10 @@ const SkillGap = () => {
     try {
       setLoading(true);
       setError(null);
-      
-      // Analyze skills
+
       const analysisRes = await analyzeSkills(selectedRole, selectedSkills);
       setAnalysis(analysisRes.data);
 
-      // Generate recommendations if there are missing skills
       if (analysisRes.data.missingSkills.length > 0) {
         const missingSkillsWithPriority = analysisRes.data.missingSkills.map(skill => {
           let priority = 'low';
@@ -95,8 +94,7 @@ const SkillGap = () => {
           analysisRes.data.readinessScore
         );
         setRecommendations(recRes.data);
-        
-        // Store analysis data for Learning Path page
+
         sessionStorage.setItem('skillGapAnalysis', JSON.stringify({
           role: selectedRole,
           currentSkills: selectedSkills,
@@ -105,7 +103,6 @@ const SkillGap = () => {
         }));
       } else {
         setRecommendations(null);
-        // Store analysis data even if no missing skills
         sessionStorage.setItem('skillGapAnalysis', JSON.stringify({
           role: selectedRole,
           currentSkills: selectedSkills,
@@ -129,6 +126,17 @@ const SkillGap = () => {
     setError(null);
   };
 
+  const assistantContext = {
+    targetRole: selectedRole,
+    currentSkills: selectedSkills,
+    matchedSkills: analysis?.matchedSkills || [],
+    missingSkills: analysis?.missingSkills || [],
+    gapLevels: analysis?.gapLevels || {},
+    recommendations: recommendations || null,
+    learningPath: recommendations?.learningPath || [],
+    readinessScore: analysis?.readinessScore || null
+  };
+
   if (loading && !analysis) {
     return (
       <div className="p-6">
@@ -146,7 +154,7 @@ const SkillGap = () => {
           <Brain className="text-blue-600" />
           AI-Assisted Skill Gap Analyzer
         </h1>
-        <p className="text-sm text-orange-600 font-medium mt-1">⚠️ PROTOTYPE DATA - Rule-based matching for demonstration</p>
+        <p className="text-sm text-orange-600 font-medium mt-1">?? PROTOTYPE DATA - Rule-based matching for demonstration</p>
       </div>
 
       {error && (
@@ -155,7 +163,6 @@ const SkillGap = () => {
         </div>
       )}
 
-      {/* Role Selection */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Step 1: Select Target Job Role</h3>
         <select
@@ -171,7 +178,6 @@ const SkillGap = () => {
         </select>
       </div>
 
-      {/* Skill Selection */}
       <SkillSelector
         availableSkills={availableSkills}
         selectedSkills={selectedSkills}
@@ -179,7 +185,6 @@ const SkillGap = () => {
         label="Step 2: Select Your Current Skills"
       />
 
-      {/* Action Buttons */}
       <div className="flex gap-4 mb-6">
         <button
           onClick={handleAnalyze}
@@ -198,7 +203,6 @@ const SkillGap = () => {
         </button>
       </div>
 
-      {/* Analysis Results */}
       {analysis && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -231,6 +235,8 @@ const SkillGap = () => {
           />
         </div>
       )}
+
+      <CareerAssistant context={assistantContext} />
     </div>
   );
 };

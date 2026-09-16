@@ -32,7 +32,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }) => {
               <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 text-slate-950 shadow-lg shadow-cyan-500/30">
                 <Sparkles size={16} />
               </span>
-              <span>SkillPulse</span>
+              <span>SkillBridge AI</span>
             </Link>
           </div>
 

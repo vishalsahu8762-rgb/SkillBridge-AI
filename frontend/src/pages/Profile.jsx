@@ -244,7 +244,7 @@ const Profile = () => {
 
           <div className="p-4 bg-purple-50 rounded-xl border border-purple-100 text-sm text-purple-900">
             <p className="font-semibold">Platform Management Authority:</p>
-            <p className="text-xs mt-1">Full access to SkillPulse modules, demand analytics, curriculum verification, and employer validation oversight.</p>
+            <p className="text-xs mt-1">Full access to SkillBridge AI modules, demand analytics, curriculum verification, and employer validation oversight.</p>
           </div>
         </div>
       )}

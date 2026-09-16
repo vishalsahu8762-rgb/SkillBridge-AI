@@ -181,6 +181,12 @@ const Dashboard = () => {
   if (user?.role === 'TRAINEE' && studentData) {
     const readiness = studentData.readinessScore || 72;
     const targetRole = studentData.targetRole || 'Full Stack Developer';
+    const hour = new Date().getHours();
+    const greeting = hour >= 5 && hour < 12
+      ? 'Good morning'
+      : hour >= 12 && hour < 17
+        ? 'Good afternoon'
+        : 'Good evening';
 
     return (
       <div className="p-6 max-w-6xl mx-auto space-y-6">
@@ -189,10 +195,10 @@ const Dashboard = () => {
             <span className="inline-flex rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-sky-100">
               Student Workspace
             </span>
-            <h1 className="mt-3 text-3xl font-black tracking-tight">Good morning, {user.name}</h1>
+            <h1 className="mt-3 text-3xl font-black tracking-tight">{greeting}, {user.name}</h1>
             <p className="mt-2 text-sm text-sky-100 flex items-center gap-2">
               <Target size={16} className="text-cyan-300" />
-              <span>Here’s your SkillPulse career intelligence overview.</span>
+              <span>Here’s your SkillBridge AI career intelligence overview.</span>
             </p>
             <p className="mt-2 text-sm text-sky-100/80 flex flex-wrap items-center gap-2">
               <span>Target Career: <strong>{targetRole}</strong></span>

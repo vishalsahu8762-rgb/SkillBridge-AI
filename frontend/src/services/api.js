@@ -202,6 +202,20 @@ export const getRoleSkills = async (role) => {
   }
 };
 
+export const sendSkillGapChatMessage = async (question, context = {}, history = []) => {
+  try {
+    const response = await api.post('/chat/skill-gap', {
+      question,
+      context,
+      history: history.slice(-6)
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error sending skill-gap chat message:', error);
+    throw error;
+  }
+};
+
 // Course API endpoints
 export const getCourses = async () => {
   try {

@@ -28,7 +28,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/my-skills', label: 'My Skills', icon: BookOpen },
     { path: '/skill-assessment', label: 'Skill Assessment', icon: Award },
-    { path: '/skill-gap', label: 'Skill Gap', icon: BookOpen },
+    { path: '/skill-gap', label: 'Skill Gap Analyzer', icon: BookOpen },
     { path: '/learning-path', label: 'Learning Path', icon: GraduationCap },
     { path: '/job-match', label: 'Job Match', icon: Briefcase },
     { path: '/industry-trends', label: 'Industry Trends', icon: TrendingUp },
@@ -61,7 +61,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       )}
 
       <aside
-        className={`fixed left-0 top-16 z-40 h-[calc(100vh-4rem)] w-64 overflow-y-auto border-r border-slate-800 bg-slate-950/95 text-white shadow-2xl shadow-slate-900/30 backdrop-blur-xl transition-transform duration-300 ease-in-out ${
+        className={`fixed left-0 top-16 z-40 h-[calc(100vh-4rem)] w-72 overflow-y-auto border-r border-slate-800 bg-slate-950/95 text-white shadow-2xl shadow-slate-900/30 backdrop-blur-xl transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -73,7 +73,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               </div>
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-sky-200">Career Intelligence</div>
-                <div className="text-lg font-black tracking-tight">SKILLPULSE</div>
+                <div className="text-lg font-black tracking-tight">SKILLBRIDGE AI</div>
               </div>
             </div>
           </div>

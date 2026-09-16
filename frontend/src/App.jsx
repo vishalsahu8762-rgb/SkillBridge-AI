@@ -73,7 +73,7 @@ const MainLayout = () => {
       
       {/* Main Content */}
       <main className={`transition-all duration-300 ${
-        isSidebarOpen ? 'md:ml-64' : 'md:ml-0'
+        isSidebarOpen ? 'md:ml-[18rem]' : 'md:ml-0'
       } pt-16`}>
         <Routes>
           <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

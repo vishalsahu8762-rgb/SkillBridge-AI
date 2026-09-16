@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserPlus, UserCheck, Building2, Shield, Lock, Mail, User, Sparkles, AlertCircle, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { UserPlus, UserCheck, Building2, Shield, Lock, Mail, User, Sparkles, AlertCircle, Eye, EyeOff, ArrowRight, ChevronDown } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { getJobRoles, getAllSkills } from '../services/api';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -10,24 +11,156 @@ const Signup = () => {
   const [role, setRole] = useState('TRAINEE');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [jobRoles, setJobRoles] = useState([]);
+  const [availableSkills, setAvailableSkills] = useState([]);
+  const [jobRoleLoading, setJobRoleLoading] = useState(false);
+  const [skillsLoading, setSkillsLoading] = useState(false);
+  const [jobRoleError, setJobRoleError] = useState('');
+  const [skillsError, setSkillsError] = useState('');
+  const [showSkillDropdown, setShowSkillDropdown] = useState(false);
+  const [showHiringRoleDropdown, setShowHiringRoleDropdown] = useState(false);
+  const skillDropdownRef = useRef(null);
+  const hiringRolesDropdownRef = useRef(null);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
     district: 'Bhopal',
-    currentSkills: 'Python, SQL, HTML',
+    currentSkills: ['Python', 'SQL', 'HTML'],
     targetRole: 'Full Stack Developer',
     companyName: '',
     industry: 'IT Services',
-    hiringRoles: 'Full Stack Developer, Cloud Engineer'
+    hiringRoles: ['Full Stack Developer', 'Cloud Engineer']
   });
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    let mounted = true;
+
+    const loadJobRoles = async () => {
+      setJobRoleLoading(true);
+      setJobRoleError('');
+      try {
+        const response = await getJobRoles();
+        const roles = Array.isArray(response?.data) ? response.data : [];
+        if (mounted) {
+          setJobRoles(roles);
+          if (!roles.includes(formData.targetRole) && roles.length > 0) {
+            setFormData(prev => ({ ...prev, targetRole: roles[0] }));
+          }
+        }
+      } catch (err) {
+        if (mounted) {
+          setJobRoleError('Unable to load job roles. Please try again.');
+        }
+      } finally {
+        if (mounted) {
+          setJobRoleLoading(false);
+        }
+      }
+    };
+
+    const loadSkills = async () => {
+      setSkillsLoading(true);
+      setSkillsError('');
+      try {
+        const response = await getAllSkills();
+        const skills = Array.isArray(response?.data) ? response.data : [];
+        if (mounted) {
+          setAvailableSkills(skills);
+        }
+      } catch (err) {
+        if (mounted) {
+          setSkillsError('Unable to load skills. Please try again.');
+        }
+      } finally {
+        if (mounted) {
+          setSkillsLoading(false);
+        }
+      }
+    };
+
+    loadJobRoles();
+    loadSkills();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (skillDropdownRef.current && !skillDropdownRef.current.contains(event.target)) {
+        setShowSkillDropdown(false);
+      }
+
+      if (hiringRolesDropdownRef.current && !hiringRolesDropdownRef.current.contains(event.target)) {
+        setShowHiringRoleDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSkillToggle = (skill) => {
+    const safeSkill = skill.trim();
+    if (!safeSkill) return;
+
+    if (formData.currentSkills.includes(safeSkill)) {
+      setFormData({
+        ...formData,
+        currentSkills: formData.currentSkills.filter(item => item !== safeSkill)
+      });
+      return;
+    }
+
+    setFormData({
+      ...formData,
+      currentSkills: [...formData.currentSkills, safeSkill]
+    });
+  };
+
+  const removeSkill = (skillToRemove) => {
+    setFormData({
+      ...formData,
+      currentSkills: formData.currentSkills.filter(item => item !== skillToRemove)
+    });
+  };
+
+  const handleHiringRoleToggle = (roleName) => {
+    const safeRole = roleName.trim();
+    if (!safeRole) return;
+
+    if (formData.hiringRoles.includes(safeRole)) {
+      setFormData({
+        ...formData,
+        hiringRoles: formData.hiringRoles.filter(item => item !== safeRole)
+      });
+      return;
+    }
+
+    setFormData({
+      ...formData,
+      hiringRoles: [...formData.hiringRoles, safeRole]
+    });
+  };
+
+  const removeHiringRole = (roleName) => {
+    setFormData({
+      ...formData,
+      hiringRoles: formData.hiringRoles.filter(item => item !== roleName)
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -55,6 +188,11 @@ const Signup = () => {
       return;
     }
 
+    if (role === 'TRAINEE' && !formData.targetRole.trim()) {
+      setError('Please select a target job role.');
+      return;
+    }
+
     if (role === 'EMPLOYER' && !formData.companyName.trim()) {
       setError('Company Name is required for Employer account.');
       return;
@@ -68,11 +206,11 @@ const Signup = () => {
         password: formData.password,
         role,
         district: formData.district,
-        currentSkills: formData.currentSkills.split(',').map(s => s.trim()).filter(Boolean),
+        currentSkills: Array.isArray(formData.currentSkills) ? formData.currentSkills : formData.currentSkills.split(',').map(s => s.trim()).filter(Boolean),
         targetRole: formData.targetRole,
         companyName: formData.companyName.trim(),
         industry: formData.industry,
-        hiringRoles: formData.hiringRoles.split(',').map(s => s.trim()).filter(Boolean)
+        hiringRoles: Array.isArray(formData.hiringRoles) ? formData.hiringRoles : formData.hiringRoles.split(',').map(s => s.trim()).filter(Boolean)
       };
 
       await signup(payload);
@@ -86,7 +224,7 @@ const Signup = () => {
 
   return (
     <div className="skillpulse-shell flex min-h-screen items-center justify-center p-4 sm:p-6 lg:p-10">
-      <div className="fade-in-up w-full max-w-5xl overflow-hidden rounded-[32px] border border-white/10 bg-white/10 shadow-[0_30px_60px_rgba(7,26,52,0.35)] backdrop-blur-xl">
+      <div className="fade-in-up w-full max-w-5xl overflow-visible rounded-[32px] border border-white/10 bg-white/10 shadow-[0_30px_60px_rgba(7,26,52,0.35)] backdrop-blur-xl">
         <div className="grid lg:grid-cols-[0.95fr_1.2fr]">
           <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-sky-950 to-blue-900 p-8 text-white sm:p-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(96,165,250,0.28),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(45,212,191,0.18),transparent_30%)]" />
@@ -97,7 +235,7 @@ const Signup = () => {
                 </div>
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-sky-200">Career Intelligence</div>
-                  <div className="text-2xl font-black tracking-tight">SkillPulse</div>
+                  <div className="text-2xl font-black tracking-tight">SkillBridge AI</div>
                 </div>
               </div>
 
@@ -128,7 +266,7 @@ const Signup = () => {
                 <UserPlus size={24} />
               </div>
               <h2 className="text-3xl font-black tracking-tight text-slate-900">Create account</h2>
-              <p className="mt-2 text-sm text-slate-500">Choose your profile and get started with SkillPulse</p>
+              <p className="mt-2 text-sm text-slate-500">Choose your profile and get started with SkillBridge AI</p>
             </div>
 
             <div className="mb-6 grid grid-cols-3 gap-2 rounded-2xl bg-slate-100 p-1.5">
@@ -220,12 +358,75 @@ const Signup = () => {
                     </select>
                   </div>
                   <div className="signup-field">
-                    <label className="text-[11px] font-semibold text-slate-700">Target Job Role</label>
-                    <input type="text" name="targetRole" placeholder="Full Stack Developer" value={formData.targetRole} onChange={handleChange} className="skillpulse-input" />
+                    <label className="text-[11px] font-semibold text-slate-700">Target Job Role *</label>
+                    <div className="skillpulse-select-wrap">
+                      {jobRoleLoading ? (
+                        <div className="skillpulse-select-status">Loading job roles...</div>
+                      ) : jobRoleError ? (
+                        <div className="skillpulse-select-status error">{jobRoleError}</div>
+                      ) : (
+                        <select name="targetRole" value={formData.targetRole} onChange={handleChange} className="skillpulse-input skillpulse-select-control" required>
+                          <option value="">Select a job role</option>
+                          {jobRoles.map(roleName => (
+                            <option key={roleName} value={roleName}>{roleName}</option>
+                          ))}
+                        </select>
+                      )}
+                      <ChevronDown size={16} className="skillpulse-select-arrow" />
+                    </div>
                   </div>
                   <div className="signup-field">
                     <label className="text-[11px] font-semibold text-slate-700">Current Skills</label>
-                    <input type="text" name="currentSkills" placeholder="Python, SQL, HTML" value={formData.currentSkills} onChange={handleChange} className="skillpulse-input" />
+                    <div className="skillpulse-skill-select-wrap" ref={skillDropdownRef}>
+                      <button
+                        type="button"
+                        className="skillpulse-skill-select-trigger skillpulse-input"
+                        onClick={() => setShowSkillDropdown(!showSkillDropdown)}
+                        aria-haspopup="listbox"
+                        aria-expanded={showSkillDropdown}
+                      >
+                        <span className="skillpulse-skill-trigger-text">
+                          {formData.currentSkills.length > 0 ? 'Selected skills' : 'Select skills'}
+                        </span>
+                        <ChevronDown size={16} className="skillpulse-select-arrow" />
+                      </button>
+
+                      {showSkillDropdown && (
+                        <div className="skillpulse-skill-dropdown">
+                          {skillsLoading ? (
+                            <div className="skillpulse-skill-dropdown-empty">Loading skills...</div>
+                          ) : skillsError ? (
+                            <div className="skillpulse-skill-dropdown-empty error">{skillsError}</div>
+                          ) : availableSkills.length === 0 ? (
+                            <div className="skillpulse-skill-dropdown-empty">No skills available.</div>
+                          ) : (
+                            <div className="skillpulse-skill-option-list">
+                              {availableSkills.map(skill => (
+                                <label key={skill} className="skillpulse-skill-option">
+                                  <input
+                                    type="checkbox"
+                                    checked={formData.currentSkills.includes(skill)}
+                                    onChange={() => handleSkillToggle(skill)}
+                                  />
+                                  <span>{skill}</span>
+                                </label>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {formData.currentSkills.length > 0 && (
+                        <div className="skillpulse-skill-chip-row">
+                          {formData.currentSkills.map(skill => (
+                            <span key={skill} className="skillpulse-skill-chip">
+                              <span>{skill}</span>
+                              <button type="button" onClick={() => removeSkill(skill)} aria-label={`Remove ${skill}`}>×</button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
@@ -256,7 +457,56 @@ const Signup = () => {
                   </div>
                   <div className="signup-field">
                     <label className="text-[11px] font-semibold text-slate-700">Hiring Job Roles</label>
-                    <input type="text" name="hiringRoles" placeholder="Full Stack Developer, Cloud Engineer" value={formData.hiringRoles} onChange={handleChange} className="skillpulse-input" />
+                    <div className="skillpulse-skill-select-wrap" ref={hiringRolesDropdownRef}>
+                      <button
+                        type="button"
+                        className="skillpulse-skill-select-trigger skillpulse-input"
+                        onClick={() => setShowHiringRoleDropdown(!showHiringRoleDropdown)}
+                        aria-haspopup="listbox"
+                        aria-expanded={showHiringRoleDropdown}
+                      >
+                        <span className="skillpulse-skill-trigger-text">
+                          {formData.hiringRoles.length > 0 ? 'Selected roles' : 'Select job roles'}
+                        </span>
+                        <ChevronDown size={16} className="skillpulse-select-arrow" />
+                      </button>
+
+                      {showHiringRoleDropdown && (
+                        <div className="skillpulse-skill-dropdown">
+                          {jobRoleLoading ? (
+                            <div className="skillpulse-skill-dropdown-empty">Loading job roles...</div>
+                          ) : jobRoleError ? (
+                            <div className="skillpulse-skill-dropdown-empty error">{jobRoleError}</div>
+                          ) : jobRoles.length === 0 ? (
+                            <div className="skillpulse-skill-dropdown-empty">No job roles available.</div>
+                          ) : (
+                            <div className="skillpulse-skill-option-list">
+                              {jobRoles.map(roleName => (
+                                <label key={roleName} className="skillpulse-skill-option">
+                                  <input
+                                    type="checkbox"
+                                    checked={formData.hiringRoles.includes(roleName)}
+                                    onChange={() => handleHiringRoleToggle(roleName)}
+                                  />
+                                  <span>{roleName}</span>
+                                </label>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {formData.hiringRoles.length > 0 && (
+                        <div className="skillpulse-skill-chip-row">
+                          {formData.hiringRoles.map(roleName => (
+                            <span key={roleName} className="skillpulse-skill-chip">
+                              <span>{roleName}</span>
+                              <button type="button" onClick={() => removeHiringRole(roleName)} aria-label={`Remove ${roleName}`}>×</button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
